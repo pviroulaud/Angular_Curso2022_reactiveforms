@@ -41,6 +41,7 @@ export class FormularioComponent implements OnInit {
     }
     this.fechaMaxima=this.hoy.getFullYear().toString()+'-'+this.mes+'-'+this.dia  
   }
+  
   fechaNacimientoChange()
   {
    this.edadCalculada= this.CalcularEdad();
