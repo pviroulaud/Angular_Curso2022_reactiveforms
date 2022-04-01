@@ -1,4 +1,48 @@
 <h2>Formulario</h2>
 <form [formGroup]="formularioUsuario" (ngSubmit)="confirmar()">
+    <div class="col-md-12 form-group">
+        <label class="form-label">Nombre</label>
+        <input type="text" class="form-control" placeholder="Ingrese su nombre" formControlName="nombre" 
+            [ngClass]="(formularioUsuario.get('nombre')?.errors?.['required'] || formularioUsuario.get('nombre')?.errors?.['minlength']) ? 'is-invalid':'is-valid'">
+        <div *ngIf="formularioUsuario.get('nombre')?.errors?.['required'] " class="invalid-feedback">El campo Nombre es requerido</div>
+        <div *ngIf="formularioUsuario.get('nombre')?.errors?.['minlength'] " class="invalid-feedback">El campo Nombre debe tener al menos 3 caracteres</div>
+        <!-- (formularioUsuario.get('mail')?.errors?.['required'] && formularioUsuario.pristine==false) -->
+    </div>
 
+    <div class="col-md-12 form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label">Fecha de nacimiento</label>
+                <input type="date" class="form-control" max="{{fechaMaxima}}"
+                    formControlName="fechaNacimiento" 
+                    [ngClass]="formularioUsuario.get('fechaNacimiento')?.errors?.['required'] ? 'is-invalid':'is-valid'"  (change)="fechaNacimientoChange()" >
+                <div *ngIf="formularioUsuario.get('fechaNacimiento')?.errors?.['required']" class="invalid-feedback">El campo fecha de nacimiento es requerido</div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Edad</label>
+                <input type="number" class="form-control" placeholder="Ingrese su fecha de nacimiento" formControlName="edad" readonly value="{{edadCalculada}}">        
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <div class="col-md-12 form-group">
+        <label class="form-label">DNI</label>
+        <input type="number" class="form-control" placeholder="Ingrese su DNI" 
+            formControlName="dni" 
+            [ngClass]="(formularioUsuario.get('dni')?.errors?.['required'] || formularioUsuario.get('dni')?.errors?.['min'] || formularioUsuario.get('dni')?.errors?.['max']) ? 'is-invalid':'is-valid'">
+        <div *ngIf="formularioUsuario.get('dni')?.errors?.['required']" class="invalid-feedback">El campo DNI es requerido</div>
+        <div *ngIf="(formularioUsuario.get('dni')?.errors?.['min'] || formularioUsuario.get('dni')?.errors?.['max'] )" class="invalid-feedback">El campo DNI debe contener 8 digitos</div>
+    </div>
+    <div class="col-md-12 form-group">
+        <label class="form-label">Correo electr&oacute;nico</label>
+        <input type="email" class="form-control" formControlName="mail" placeholder="Ingrese su correo electr&oacute;nico" 
+        [ngClass]="(formularioUsuario.get('mail')?.errors?.['required'] || formularioUsuario.get('mail')?.errors?.['pattern']) ? 'is-invalid':'is-valid'">
+        <div *ngIf="formularioUsuario.get('mail')?.errors?.['required']" class="invalid-feedback">El campo Correo electr&oacute;nico es requerido</div>
+        <div *ngIf="formularioUsuario.get('mail')?.errors?.['pattern']" class="invalid-feedback">El campo Correo electr&oacute;nico no tiene el formato correcto</div>
+    </div>
+    <div class="col-md-12 form-group mt-3" style="text-align: right;">
+        <button type="submit" class="btn btn-primary" [disabled]="formularioUsuario.invalid">Confirmar</button>
+    </div>
 </form>
